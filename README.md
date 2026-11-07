@@ -197,8 +197,8 @@ See [docs/VERIFICATION.md](docs/VERIFICATION.md) for the recorded execution resu
   999,999,999,999.99; an order supports 100 products. CSV supports 5000 rows and the
   complete upload/request limit is 2 MB. Overflows are rejected explicitly.
 - A zero opening quantity has no stock change, so no Opening movement is added for zero.
-- A unique-code collision caused by a concurrent import returns 409 and rolls back the file.
-  Normal CSV validation reports row numbers; malformed multi-line records identify their
+- A unique-code collision caused by a concurrent import returns 409 with the row number
+  and rolls back the file. Malformed multi-line records identify their
   ending physical line. Blank physical CSV lines are ignored by the CSV parser.
 - Users are created through the CLI. Registration, password recovery and public hosting
   are outside the requested scope. The Flask local development server is used for the demo.

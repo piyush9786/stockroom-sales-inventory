@@ -1,6 +1,7 @@
 """Admin-only product CSV validation and atomic import."""
 import csv
 import io
+import pymysql
 from .db import query, execute, transaction
 from .validation import Problem, product_data
 from .services import require_admin, stock_movement
@@ -45,9 +46,16 @@ def import_products(raw, user):
                 errors.append({'row': line, 'reason': 'Product code already exists in database.'})
         if errors:
             raise Problem('Import rejected. No products were imported.', details=sorted(errors, key=lambda e: e['row']))
-        for _line, row in valid:
-            pid = execute('''INSERT INTO products
-                (product_code,name,category,price,stock_quantity,status) VALUES (%s,%s,%s,%s,%s,%s)''',
-                tuple(row[k] for k in ('product_code','name','category','price','stock_quantity','status')))
+        for line, row in valid:
+            try:
+                pid = execute('''INSERT INTO products
+                    (product_code,name,category,price,stock_quantity,status) VALUES (%s,%s,%s,%s,%s,%s)''',
+                    tuple(row[k] for k in ('product_code','name','category','price','stock_quantity','status')))
+            except pymysql.IntegrityError as error:
+                if error.args[0] != 1062:
+                    raise
+                # A simultaneous import may insert the code after the validation query.
+                raise Problem('Import rejected. No products were imported.', 409,
+                              details=[{'row': line, 'reason': 'Product code was inserted by another request.'}]) from None
             stock_movement(pid, 'Opening', row['stock_quantity'], user['id'], 'CSV opening stock')
     return {'imported': len(valid)}

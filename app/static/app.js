@@ -216,7 +216,7 @@ async function orderEditor(id) {
         try {
           const product = selected ? await api(`/products/${selected}`) : null;
           if (tr.dataset.selection !== selected || !tr.isConnected) return;
-          tr.dataset.rate = item.product_id === product?.id ? item.rate : product?.price || '0';
+          tr.dataset.rate = product && item.product_id === product.id ? item.rate : product?.price || '0';
           $('.rate',tr).textContent = currency(tr.dataset.rate);
           $('.row-stock',tr).textContent = product ? `${product.stock_quantity} in stock` : 'Select a product to check stock';
           recalculate();

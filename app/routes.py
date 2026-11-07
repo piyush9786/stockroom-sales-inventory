@@ -196,7 +196,7 @@ def report_dates():
     return start, end
 
 
-@api.get('/reports/<any(customer-sales,product-sales,low-stock,stock-movements):kind>')
+@api.get('/reports/<any("customer-sales","product-sales","low-stock","stock-movements"):kind>')
 def reports(kind):
     require_admin(g.user)
     if kind == 'customer-sales':

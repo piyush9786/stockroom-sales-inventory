@@ -35,6 +35,8 @@ master data, reports, CSV and role-specific screens. Results are documented in
 
 ## Corrections identified
 
+- Startup verification caught unquoted hyphenated Flask route-converter values in the
+  report routes; those values were quoted before application/integration verification.
 - The supplied debugging function overwrote the total instead of accumulating it; the
   corrected shared Decimal function is covered by dedicated tests.
 - MySQL's SUM of integer quantities can be returned as Decimal; the product sales API

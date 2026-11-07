@@ -49,3 +49,38 @@ def test_bad_csv_rejected(app, clients, content):
 
 def test_sales_cannot_import(clients):
     assert upload(clients,HEADER+'NEW-1,A,C,1,1,Active\n','sales').status_code == 403
+
+
+def test_concurrent_code_collision_rolls_back_with_row_number(app,data,monkeypatch):
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Barrier
+    from app import csv_import
+    from app.validation import Problem
+    barrier = Barrier(2)
+    original = csv_import.query
+
+    def synchronized_query(sql,params=(),**kwargs):
+        result = original(sql,params,**kwargs)
+        if 'WHERE product_code=' in sql:
+            barrier.wait(timeout=10)  # both real validation reads finish before either insert
+        return result
+
+    monkeypatch.setattr(csv_import,'query',synchronized_query)
+    raw = (HEADER+'RACE-1,Concurrent product,Cables,10,5,Active\n').encode()
+
+    def attempt():
+        with app.app_context():
+            try:
+                csv_import.import_products(raw,data['users']['admin'])
+                return 201,None
+            except Problem as error:
+                return error.status,error.details
+
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        futures = [executor.submit(attempt) for _ in range(2)]
+        results = [future.result(timeout=20) for future in futures]
+    assert sorted(status for status,_ in results) == [201,409]
+    assert next(details for status,details in results if status == 409)[0]['row'] == 2
+    with app.app_context():
+        assert query("SELECT COUNT(*) AS n FROM products WHERE product_code='RACE-1'",one=True)['n'] == 1
+        assert query("SELECT COUNT(*) AS n FROM stock_movements WHERE reason='CSV opening stock'",one=True)['n'] == 1
