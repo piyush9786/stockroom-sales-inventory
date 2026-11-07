@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}{{ page|title }} · Sales & Inventory{% endblock %}
+{% block page %}{{ page }}{% endblock %}
+{% block content %}
+<aside class="sidebar">
+  <a href="/orders" class="brand"><span class="brand-mark">S</span><span>Sales &<br>Inventory</span></a>
+  <p class="nav-label">WORKSPACE</p>
+  <nav aria-label="Main navigation">
+    {% for key, title, symbol in [('orders','Sales orders','▤'),('customers','Customers','◎'),('products','Products','▦')] %}
+      <a href="/{{ key }}" {% if page == key %}aria-current="page"{% endif %}><span>{{ symbol }}</span>{{ title }}</a>
+    {% endfor %}
+    {% if user.role == 'Admin' %}<a href="/reports" {% if page == 'reports' %}aria-current="page"{% endif %}><span>↗</span>Reports</a>{% endif %}
+  </nav>
+  <div class="sidebar-foot"><span class="avatar">{{ user.name[:1] }}</span><div><strong>{{ user.name }}</strong><small>{{ user.role }}</small></div></div>
+  <button id="logout" class="logout">Sign out</button>
+</aside>
+<main class="workspace">
+  <div class="topbar"><span>Trading workspace</span><span>INR · Single stock location</span></div>
+  <header class="page-head"><div><p class="eyebrow">{% if page == 'reports' %}BUSINESS OVERVIEW{% elif page == 'orders' %}SALES{% else %}MASTER DATA{% endif %}</p>
+    <h1>{{ 'Sales orders' if page == 'orders' else page|title }}</h1>
+    <p class="muted" id="page-description"></p></div>
+    <div class="actions" id="page-actions"></div>
+  </header>
+  <div id="message" class="message" role="alert" hidden></div>
+  <section class="panel">
+    <form id="filters" class="filters" aria-label="Filters"></form>
+    <div id="content" class="table-wrap" aria-live="polite"><p class="empty">Loading…</p></div>
+    <div id="pagination" class="pagination"></div>
+  </section>
+  <p class="footer-note">{% if page == 'orders' %}Draft orders do not reserve stock. Stock is checked when you confirm.{% elif page == 'reports' %}Sales summaries include Confirmed orders only.{% else %}Deactivate referenced records to preserve order and stock history.{% endif %}</p>
+</main>
+<dialog id="editor" aria-labelledby="editor-title"><div id="editor-content"></div></dialog>
+{% endblock %}
