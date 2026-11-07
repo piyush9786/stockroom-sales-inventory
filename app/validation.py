@@ -26,6 +26,8 @@ def text(value, field, maximum=120):
 def integer(value, field, minimum=1, maximum=MAX_QUANTITY):
     if isinstance(value, bool) or not re.fullmatch(r'-?\d+', str(value)):
         raise Problem(f'{field} must be a whole number.')
+    if len(str(value).lstrip('-')) > 10:
+        raise Problem(f'{field} must be between {minimum} and {maximum}.')
     result = int(value)
     if not minimum <= result <= maximum:
         raise Problem(f'{field} must be between {minimum} and {maximum}.')
@@ -33,6 +35,8 @@ def integer(value, field, minimum=1, maximum=MAX_QUANTITY):
 
 
 def decimal_value(value, field, minimum=Decimal('0'), maximum=MAX_MONEY):
+    if isinstance(value, bool) or len(str(value)) > 100:
+        raise Problem(f'{field} must be a valid number.')
     try:
         result = Decimal(str(value))
     except (InvalidOperation, TypeError, ValueError):

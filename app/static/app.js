@@ -191,7 +191,8 @@ async function orderEditor(id) {
       const amount = /^\d+$/.test(quantity) ? BigInt(quantity) * cents(row.dataset.rate || '0') : 0n;
       $('.amount',row).textContent = displayCents(amount); subtotal += amount;
     });
-    const percentage = cents($('#discount').value);
+    const enteredPercentage = cents($('#discount').value);
+    const percentage = enteredPercentage > 2000n ? 2000n : enteredPercentage;
     const discount = (subtotal * percentage + 5000n) / 10000n;
     $('#subtotal').textContent = displayCents(subtotal);
     $('#discount-amount').textContent = displayCents(discount);

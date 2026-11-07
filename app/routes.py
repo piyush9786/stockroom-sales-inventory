@@ -210,7 +210,7 @@ def reports(kind):
     elif kind == 'product-sales':
         start, end = report_dates()
         rows = query('''SELECT p.id,p.product_code,p.name AS product,
-                        SUM(i.quantity) AS quantity_sold,SUM(i.amount) AS gross_item_value
+                        CAST(SUM(i.quantity) AS UNSIGNED) AS quantity_sold,SUM(i.amount) AS gross_item_value
                         FROM products p JOIN sales_order_items i ON i.product_id=p.id
                         JOIN sales_orders o ON o.id=i.sales_order_id
                         WHERE o.status='Confirmed' AND o.order_date BETWEEN %s AND %s
