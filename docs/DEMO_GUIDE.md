@@ -18,6 +18,9 @@ The demo covers:
 10. Sales login, active-only master access, own-order visibility and backend denial of
     another user's order; logout.
 
+Still previews from the recording are provided in `order-editor.png` and
+`stock-history.png` in this documentation directory.
+
 For a personal narrated replacement, create sample users/data following the README and
 record those same flows in 5-8 minutes. Also be ready to explain the real-MySQL
 concurrency tests, row-lock ordering, Decimal rounding, snapshots and Git history.
