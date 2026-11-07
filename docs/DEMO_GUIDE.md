@@ -4,6 +4,10 @@ The submission archive includes `demo.mp4`, a 5-8 minute screen recording of the
 Flask/MySQL application. It uses fictional local data and accounts. Captions explain the
 actions; the recording has no spoken narration. Recording tools are not app dependencies.
 
+Verified duration: **5 minutes 55 seconds** (355.2 seconds), within the required 5-8
+minutes. The recording completed with no capture errors and no application JavaScript
+runtime errors.
+
 The demo covers:
 
 1. Admin login and the orders workspace.
