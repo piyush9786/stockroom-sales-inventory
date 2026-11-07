@@ -8,6 +8,9 @@ It uses **Python / Flask, HTML, CSS, plain JavaScript, MySQL, REST JSON APIs and
 PyMySQL is the database driver; pytest runs the automated tests. There is no frontend
 framework, ORM, alternate database, container platform or external service requirement.
 
+The **Stockroom** interface includes a public landing page, a purple gradient theme,
+and shop-style printable sales bills. These additions use the same stack and database.
+
 ## 1. Requirements
 
 - Python **3.11-3.14**; verified with Python 3.14.
@@ -98,6 +101,28 @@ same business logic as the API. The Confirmed sample has subtotal 4,500.00, disc
   creates an Opening movement. Examples: `samples/products_valid.csv` and
   `samples/products_invalid.csv`. Imported codes use IMP-* to avoid seed-code collisions;
   the header and example Keyboard/Mouse values follow the assignment format.
+
+### Landing page and shop bills
+
+The home URL `/` is a public landing page. Use **Sign in / Enter your workspace** to
+open the protected application. The sidebar logo and **Visit home page** return home.
+
+For a **Confirmed** order, click **Bill** in the order list or **Generate bill** in its detail
+dialog. Choose **Shop receipt** (80 mm wide) or **A4 bill**, then **Print / Save PDF**.
+Choose your printer or the browser's **Save as PDF** destination. Both layouts show the
+shop name, unique bill reference, order number/date, customer, salesperson, product
+codes/names, quantities, saved rates/amounts, subtotal, discount and grand total in INR.
+The shop name defaults to the clearly generic `The Trading Store`; optionally set
+`SHOP_NAME`, `SHOP_ADDRESS`, and `SHOP_PHONE` in `.env`, then restart the application.
+Empty address/phone fields are omitted, so no contact details are invented.
+
+Bills are read-only views of Confirmed orders: viewing/printing does not create another
+sale, deduct stock or record a payment. Draft and Cancelled orders return 409, and Sales
+Users can only access their own orders' bills. Monetary values come from the saved order,
+including rate snapshots; customer/shop contact details come from current master/configuration
+data. This is not an added accounting or payment system. Browser paper/printer settings can
+override the suggested print sizes; the receipt stylesheet suggests 80 x 297 mm paper.
+Printing and PDF saving use the browser's native dialog, with no added dependencies.
 
 ## 4. Roles and security
 

@@ -49,6 +49,9 @@ def create_app(overrides=None):
         DB_USER=os.environ.get('DB_USER', 'sales_app'),
         DB_PASSWORD=os.environ.get('DB_PASSWORD', ''),
         DB_NAME=os.environ.get('DB_NAME', 'sales_inventory'),
+        SHOP_NAME=os.environ.get('SHOP_NAME') or 'The Trading Store',
+        SHOP_ADDRESS=os.environ.get('SHOP_ADDRESS', ''),
+        SHOP_PHONE=os.environ.get('SHOP_PHONE', ''),
         SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE='Lax',
         SESSION_COOKIE_SECURE=os.environ.get('SESSION_COOKIE_SECURE', 'false').lower() == 'true',
         PERMANENT_SESSION_LIFETIME=timedelta(hours=8),
@@ -119,11 +122,35 @@ def create_app(overrides=None):
 
     @app.get('/login')
     def login_page():
-        return redirect('/') if g.user else render_template('login.html')
+        return redirect('/orders') if g.user else render_template('login.html')
 
     @app.get('/')
     def home():
-        return redirect('/orders')
+        return render_template('landing.html', user=g.user)
+
+    @app.template_filter('amount')
+    def amount(value):
+        return format(value, ',.2f')
+
+    @app.get('/orders/<int:order_id>/bill')
+    def order_bill(order_id):
+        from .services import order_detail
+        if not g.user:
+            return redirect('/login')
+        order = order_detail(order_id, g.user)
+        if order['status'] != 'Confirmed':
+            raise Problem('A bill is available only for a Confirmed order.', 409)
+        layout = request.args.get('format', 'receipt')
+        if layout not in ('receipt', 'invoice'):
+            raise Problem('Bill format must be receipt or invoice.')
+        customer = db.query('SELECT name,email,mobile,city FROM customers WHERE id=%s',
+                            (order['customer_id'],), one=True)
+        creator = db.query('SELECT name FROM users WHERE id=%s',
+                           (order['created_by'],), one=True)
+        return render_template('bill.html', order=order, customer=customer, creator=creator,
+                               layout=layout, bill_number=f'BILL-{order_id:06d}',
+                               shop_name=app.config['SHOP_NAME'], shop_address=app.config['SHOP_ADDRESS'],
+                               shop_phone=app.config['SHOP_PHONE'])
 
     @app.get('/<any(orders,customers,products,reports):page>')
     def workspace(page):

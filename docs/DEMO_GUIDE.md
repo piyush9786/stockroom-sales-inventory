@@ -4,6 +4,11 @@ The submission archive includes `demo.mp4`, a 5-8 minute screen recording of the
 Flask/MySQL application. It uses fictional local data and accounts. Captions explain the
 actions; the recording has no spoken narration. Recording tools are not app dependencies.
 
+The recording demonstrates the original core business workflows before the later visual
+refresh. The current application also has the Stockroom landing page, gradient workspace,
+and printable shop/A4 bills. Current screenshots are included as `landing-page.jpg`,
+`workspace-redesign.jpg`, `shop-receipt.jpg`, and `a4-bill.jpg` in this directory.
+
 Verified duration: **5 minutes 55 seconds** (355.2 seconds), within the required 5-8
 minutes. The recording completed with no capture errors and no application JavaScript
 runtime errors.

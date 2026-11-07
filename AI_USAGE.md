@@ -12,6 +12,8 @@ the submitted solution. This must not be represented as unaided candidate work.
 - Write the Flask application, parameterized SQL, validation/calculations, authentication,
   role/ownership checks, order and stock services, CSV import and reporting.
 - Write the HTML/CSS/plain JavaScript interface and REST documentation.
+- Implement the subsequently requested landing page, purple gradient redesign and
+  protected shop-receipt/A4 bill layouts using browser printing and the existing stack.
 - Write/run automated tests, prepare sample data/CSV files, maintain meaningful Git
   commits with a feature-branch merge, and prepare the demo recording/submission archive.
 
