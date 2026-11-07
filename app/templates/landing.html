@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Stockroom · A little order. A lot of possibility.{% endblock %}
+{% block page %}landing{% endblock %}
+{% block content %}
+<div class="landing-shell">
+  <header class="landing-nav">
+    <a class="brand" href="/" aria-label="Stockroom home"><span class="brand-mark">S<span class="brand-dot"></span></span><span>stockroom<span class="brand-sub">SALES & INVENTORY</span></span></a>
+    <nav aria-label="Site navigation"><a href="#features">The workspace</a><a href="#how-it-works">How it works</a></nav>
+    <a href="{{ '/orders' if user else '/login' }}" class="button nav-cta">{{ 'Open workspace' if user else 'Sign in' }} <span aria-hidden="true">↗</span></a>
+  </header>
+  <main>
+    <section class="landing-hero">
+      <div class="hero-copy"><p class="landing-kicker"><span></span> A BETTER DAY AT THE COUNTER</p>
+        <h1>Less juggling.<br>More <span class="gradient-text">business.</span></h1>
+        <p class="hero-description">Your customers, stock, and sales — beautifully in sync. From the first order to the printed bill, give every detail a place.</p>
+        <div class="hero-buttons"><a href="{{ '/orders' if user else '/login' }}" class="button primary">Enter your workspace <span aria-hidden="true">↗</span></a><a href="#features" class="text-link">Take a look around <span aria-hidden="true">↓</span></a></div>
+        <div class="hero-proof"><span><i>✓</i> Know your stock</span><span><i>✓</i> Keep sales simple</span><span><i>✓</i> Print with confidence</span></div>
+      </div>
+      <div class="hero-scene" aria-label="Illustrative example of an order and its bill">
+        <div class="scene-orbit orbit-one"></div><div class="scene-orbit orbit-two"></div>
+        <div class="scene-tag"><span class="live-dot"></span> Everything, in its place.</div>
+        <div class="preview-window"><div class="window-toolbar"><div class="window-dots"><i></i><i></i><i></i></div><span>YOUR DAILY WORKSPACE</span><span class="mini-logo">S</span></div>
+          <div class="window-content"><p class="preview-eyebrow">A LITTLE MORE CLARITY</p><div class="split"><h2>Ready for business.</h2><span class="preview-plus">+</span></div>
+            <div class="mini-stats"><div><span>Customer</span><strong>Acme Traders</strong></div><div><span>Order status</span><strong class="green-text">✓ Confirmed</strong></div></div>
+            <div class="preview-table"><div class="preview-table-head"><span>PRODUCT</span><span>QTY</span><span>AMOUNT</span></div><div><span><i class="product-icon">▦</i> Keyboard</span><span>2</span><strong>3,000.00</strong></div><div><span><i class="product-icon warm">◈</i> Mouse</span><span>3</span><strong>1,500.00</strong></div></div>
+            <div class="preview-total"><span>After 10% discount</span><strong><small>INR</small> 4,050.00</strong></div>
+          </div>
+        </div>
+        <div class="floating-receipt"><div class="receipt-top-icon">↗</div><p>From order<br><strong>to a proper bill.</strong></p><div class="receipt-dashes"></div><div class="receipt-mini-line"><span>Grand total</span><strong>4,050.00</strong></div><span class="receipt-ready">✓ Ready to print</span></div>
+        <p class="scene-caption">Illustrative preview · one currency, one stock location</p>
+      </div>
+    </section>
+    <section class="feature-section" id="features"><div class="section-heading"><p class="eyebrow">ONE CONNECTED WORKSPACE</p><h2>Big on the details.<br>Easy on your day.</h2><p>All the essentials for a small trading business,<br>with room to focus on the work that matters.</p></div>
+      <div class="feature-grid"><article class="feature-card"><div class="feature-icon violet">◎</div><span class="feature-number">01 / CUSTOMERS</span><h3>Good relationships<br>start here.</h3><p>A clear home for customer details. Find the right person, keep records up to date, and pick up where you left off.</p><span class="feature-footer">Your customer book, organised <span>↗</span></span></article>
+      <article class="feature-card featured"><div class="feature-icon mint">▦</div><span class="feature-number">02 / INVENTORY</span><h3>Know what’s<br>on the shelf.</h3><p>See available quantities, adjust stock with a reason, and follow every movement from opening stock to a sale.</p><span class="feature-footer">Every movement accounted for <span>↗</span></span></article>
+      <article class="feature-card"><div class="feature-icon peach">▤</div><span class="feature-number">03 / ORDERS & BILLS</span><h3>Make the sale.<br>Keep it simple.</h3><p>Build an order, check the numbers, and confirm. Then print a clean shop receipt or an A4 bill straight from your browser.</p><span class="feature-footer">From first item to final bill <span>↗</span></span></article></div>
+    </section>
+    <section class="workflow-section" id="how-it-works"><div><p class="eyebrow">A SIMPLE WAY TO WORK</p><h2>Three steps.<br>One smooth flow.</h2><p>Clear states. Correct totals.<br>A little less to think about.</p><a class="text-link" href="{{ '/orders' if user else '/login' }}">Let’s get to work <span>↗</span></a></div><div class="workflow-steps"><article><span>01</span><div><h3>Build your draft</h3><p>Choose a customer, add products, and apply a discount. Your stock stays untouched.</p></div><b>↗</b></article><article><span>02</span><div><h3>Confirm with confidence</h3><p>Available stock is checked for every item, then updated together with your order.</p></div><b>↗</b></article><article><span>03</span><div><h3>Hand over a great bill</h3><p>Open the confirmed order’s bill. Choose a shop receipt or A4 layout, then print or save as PDF.</p></div><b>↗</b></article></div></section>
+    <section class="landing-final"><p>GOOD BUSINESS STARTS WITH A LITTLE ORDER.</p><h2>Make room for<br>your next good day.</h2><a href="{{ '/orders' if user else '/login' }}" class="button light">Open your workspace <span>↗</span></a><span class="final-orb"></span></section>
+  </main>
+  <footer class="landing-footer"><a href="/" class="brand"><span class="brand-mark">S</span>stockroom</a><p>Sales, stock, and a little peace of mind.</p><span>INR · One stock location</span></footer>
+</div>
+{% endblock %}

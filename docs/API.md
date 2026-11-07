@@ -164,6 +164,15 @@ Validation failure (400):
 {"error":"Import rejected. No products were imported.","details":[{"row":3,"reason":"Price must be between 0 and 999999999999.99."}]}
 ```
 
+## Printable bill pages (HTML)
+
+`GET /orders/{id}/bill?format=receipt` and `GET /orders/{id}/bill?format=invoice`
+render the shop receipt and A4 bill. These are HTML pages, separate from the JSON API.
+Login and the same order-ownership checks are required. Only Confirmed orders are
+billable; Draft/Cancelled return 409, another user's order returns 403, missing orders
+404 and unknown format 400. Both pages use stored totals/rates and perform no writes.
+The in-page print button opens the browser's print/Save as PDF dialog.
+
 ## Errors and status codes
 
 | Status | Meaning |

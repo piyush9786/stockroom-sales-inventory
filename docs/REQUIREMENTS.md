@@ -33,6 +33,15 @@ payment processing are excluded. Sales reports count Confirmed orders only. The
 interface is deliberately simple and functional, with clear errors and server-side financial
 validation. Assumptions/limits and verification are documented rather than concealed.
 
+## Requested presentation additions
+
+After the assignment implementation, the user requested a more polished gradient design,
+a landing page and shop-style bills. Those additions use the existing Flask, HTML/CSS,
+JavaScript and MySQL stack. The public landing page links to the protected workspace;
+Confirmed orders expose protected HTML bills in receipt/A4 layouts. Browser printing
+provides PDF saving. Stock logic, backend totals, roles, six-entity schema and the original
+scope exclusions are retained. See `tests/test_bills.py` and the README for usage.
+
 ## Technical interview preparation
 
 The assignment says shortlisted candidates must demonstrate the app, explain design

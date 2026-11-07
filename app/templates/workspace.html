@@ -3,7 +3,7 @@
 {% block page %}{{ page }}{% endblock %}
 {% block content %}
 <aside class="sidebar">
-  <a href="/orders" class="brand"><span class="brand-mark">S</span><span>Sales &<br>Inventory</span></a>
+  <a href="/" class="brand"><span class="brand-mark">S<span class="brand-dot"></span></span><span>stockroom<span class="brand-sub">SALES & INVENTORY</span></span></a>
   <p class="nav-label">WORKSPACE</p>
   <nav aria-label="Main navigation">
     {% for key, title, symbol in [('orders','Sales orders','▤'),('customers','Customers','◎'),('products','Products','▦')] %}
@@ -11,11 +11,12 @@
     {% endfor %}
     {% if user.role == 'Admin' %}<a href="/reports" {% if page == 'reports' %}aria-current="page"{% endif %}><span>↗</span>Reports</a>{% endif %}
   </nav>
+  <a href="/" class="sidebar-home">↗ Visit home page</a>
   <div class="sidebar-foot"><span class="avatar">{{ user.name[:1] }}</span><div><strong>{{ user.name }}</strong><small>{{ user.role }}</small></div></div>
   <button id="logout" class="logout">Sign out</button>
 </aside>
 <main class="workspace">
-  <div class="topbar"><span>Trading workspace</span><span>INR · Single stock location</span></div>
+  <div class="topbar"><span><span class="workspace-dot"></span> Your trading workspace</span><span>INR <span class="topbar-separator">/</span> One stock location</span></div>
   <header class="page-head"><div><p class="eyebrow">{% if page == 'reports' %}BUSINESS OVERVIEW{% elif page == 'orders' %}SALES{% else %}MASTER DATA{% endif %}</p>
     <h1>{{ 'Sales orders' if page == 'orders' else page|title }}</h1>
     <p class="muted" id="page-description"></p></div>

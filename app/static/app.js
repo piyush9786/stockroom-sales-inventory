@@ -95,7 +95,8 @@ async function loadRecords() {
       {label:'Order',render:row => `<strong class="order-number">${escapeHTML(row.order_number)}</strong>`},
       {key:'customer_name',label:'Customer'}, {key:'order_date',label:'Date'},
       {label:'Status',render:row => badge(row.status)}, {key:'owner_name',label:'Created by'},
-      {label:'Total (INR)',numeric:true,render:row => currency(row.grand_total)}, {label:'',render:edit}
+      {label:'Total (INR)',numeric:true,render:row => currency(row.grand_total)},
+      {label:'',render:row => edit(row) + (row.status === 'Confirmed' ? ` <a class="bill-link" href="/orders/${row.id}/bill">Bill ↗</a>` : '')}
     ];
     else if (currentPage === 'customers') columns = [
       {label:'Customer',render:row => `<strong>${escapeHTML(row.name)}</strong><small>${escapeHTML(row.email)}</small>`},
@@ -182,7 +183,8 @@ async function orderEditor(id) {
   if (editable && !customers.some(c => c.id === order.customer_id) && order.customer_id) customers.push({id:order.customer_id,name:order.customer_name + ' (inactive)'});
   const option = (value,label,selected) => `<option value="${value}" ${selected ? 'selected' : ''}>${escapeHTML(label)}</option>`;
   const customerInput = editable ? `<label>Customer<select name="customer_id" required><option value="">Select customer</option>${customers.map(c => option(c.id,c.name,c.id === order.customer_id)).join('')}</select></label>` : field('customer_name','Customer',order.customer_name,'text','disabled');
-  openDialog(id ? 'Order details' : 'New sales order', id ? `${order.order_number} · ${order.status}` : 'Save a Draft, then confirm it to deduct stock.', `<form id="order-form"><div class="form-grid three">${customerInput}${field('order_date','Order date',order.order_date,'date',editable ? 'required' : 'disabled')}<label>Status<span>${badge(order.status)}</span></label></div><div class="table-wrap"><table class="item-table"><thead><tr><th>Product</th><th>Quantity</th><th class="numeric">Rate (INR)</th><th class="numeric">Amount (INR)</th><th></th></tr></thead><tbody id="order-items"></tbody></table></div>${editable ? '<button type="button" id="add-item">+ Add product</button>' : ''}<div class="totals"><div><span>Subtotal</span><strong id="subtotal">0.00</strong></div><div><label class="discount-label">Discount % <input id="discount" name="discount_percentage" type="number" min="0" max="20" step="0.01" value="${escapeHTML(order.discount_percentage)}" ${editable ? 'required' : 'disabled'}></label><span id="discount-amount">0.00</span></div><div class="grand"><span>Total · INR</span><span id="grand-total">0.00</span></div></div><div class="dialog-foot">${id && order.status !== 'Cancelled' ? '<button type="button" id="cancel-order" class="danger">Cancel order</button>' : ''}${editable ? '<button type="submit" class="primary">Save Draft</button>' : ''}${id && editable ? '<button type="button" id="confirm-order" class="primary">Confirm order</button>' : ''}</div></form>`);
+  const billLink = order.status === 'Confirmed' ? `<a class="button primary" href="/orders/${order.id}/bill">Generate bill ↗</a>` : '';
+  openDialog(id ? 'Order details' : 'New sales order', id ? `${order.order_number} · ${order.status}` : 'Save a Draft, then confirm it to deduct stock.', `<form id="order-form"><div class="form-grid three">${customerInput}${field('order_date','Order date',order.order_date,'date',editable ? 'required' : 'disabled')}<label>Status<span>${badge(order.status)}</span></label></div><div class="table-wrap"><table class="item-table"><thead><tr><th>Product</th><th>Quantity</th><th class="numeric">Rate (INR)</th><th class="numeric">Amount (INR)</th><th></th></tr></thead><tbody id="order-items"></tbody></table></div>${editable ? '<button type="button" id="add-item">+ Add product</button>' : ''}<div class="totals"><div><span>Subtotal</span><strong id="subtotal">0.00</strong></div><div><label class="discount-label">Discount % <input id="discount" name="discount_percentage" type="number" min="0" max="20" step="0.01" value="${escapeHTML(order.discount_percentage)}" ${editable ? 'required' : 'disabled'}></label><span id="discount-amount">0.00</span></div><div class="grand"><span>Total · INR</span><span id="grand-total">0.00</span></div></div><div class="dialog-foot">${id && order.status !== 'Cancelled' ? '<button type="button" id="cancel-order" class="danger">Cancel order</button>' : ''}${editable ? '<button type="submit" class="primary">Save Draft</button>' : ''}${id && editable ? '<button type="button" id="confirm-order" class="primary">Confirm order</button>' : ''}${billLink}</div></form>`);
   const productMap = new Map(products.map(p => [p.id,p]));
   function recalculate() {
     let subtotal = 0n;
@@ -252,6 +254,11 @@ async function orderEditor(id) {
 }
 
 async function start() {
+  if (currentPage === 'landing') return;
+  if (currentPage === 'bill') {
+    $('#print-bill').addEventListener('click', () => window.print());
+    return;
+  }
   const session = await api('/session'); csrf = session.csrf_token; user = session.user;
   if (currentPage === 'login') {
     $('#login-form').onsubmit = event => {

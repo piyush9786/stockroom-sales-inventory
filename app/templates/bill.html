@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}{{ bill_number }} · {{ shop_name }}{% endblock %}
+{% block page %}bill{% endblock %}
+{% block content %}
+<main class="bill-preview {{ layout }}-layout">
+  <header class="bill-toolbar"><a href="/orders" class="bill-back">← Back to orders</a><div><p class="eyebrow">READY TO HAND OVER</p><h1>Your sales bill.</h1><p>Saved order values, neatly on paper.</p></div><div class="bill-controls"><div class="bill-formats" aria-label="Bill layout"><a href="{{ url_for('order_bill', order_id=order.id, format='receipt') }}" {% if layout == 'receipt' %}aria-current="page"{% endif %}>Shop receipt</a><a href="{{ url_for('order_bill', order_id=order.id, format='invoice') }}" {% if layout == 'invoice' %}aria-current="page"{% endif %}>A4 bill</a></div><button type="button" class="primary" id="print-bill">Print / Save PDF <span aria-hidden="true">↗</span></button></div></header>
+  <article class="shop-bill" aria-label="Sales bill {{ bill_number }}">
+    <header class="shop-bill-header"><div class="bill-shop-monogram">{{ shop_name[:1] }}</div><div><h2>{{ shop_name }}</h2>{% if shop_address %}<p>{{ shop_address }}</p>{% endif %}{% if shop_phone %}<p>Tel: {{ shop_phone }}</p>{% endif %}<p class="bill-document-label">SALES BILL · INR</p></div></header>
+    <div class="bill-meta"><div><span>Bill number</span><strong>{{ bill_number }}</strong></div><div><span>Order date</span><strong>{{ order.order_date.strftime('%d %b %Y') }}</strong></div><div class="bill-order-reference"><span>Order reference</span><strong>{{ order.order_number }}</strong></div></div>
+    <section class="bill-customer"><div><span class="bill-label">BILL TO</span><h3>{{ customer.name }}</h3><p>{{ customer.city }}</p><p>{{ customer.mobile }}</p><p>{{ customer.email }}</p></div><div class="bill-salesperson"><span class="bill-label">SERVED BY</span><strong>{{ creator.name }}</strong><span class="bill-confirmed">✓ Confirmed order</span></div></section>
+    <table class="bill-items"><thead><tr><th>Item</th><th class="numeric">Qty</th><th class="numeric">Rate</th><th class="numeric">Amount</th></tr></thead><tbody>{% for item in order['items'] %}<tr><td><strong>{{ item.product_name }}</strong><small>{{ item.product_code }}</small></td><td class="numeric">{{ item.quantity }}</td><td class="numeric">{{ item.rate|amount }}</td><td class="numeric">{{ item.amount|amount }}</td></tr>{% endfor %}</tbody></table>
+    <div class="bill-summary"><div><span>Total quantity</span><span>{{ order['items']|sum(attribute='quantity') }}</span></div><div><span>Subtotal</span><span>{{ order.subtotal|amount }}</span></div><div><span>Discount ({{ order.discount_percentage|amount }}%)</span><span>− {{ order.discount_amount|amount }}</span></div><div class="bill-grand"><strong>Grand total</strong><strong><small>INR</small> {{ order.grand_total|amount }}</strong></div></div>
+    <footer class="bill-thanks"><h3>Thank you for shopping with us!</h3><p>We look forward to seeing you again.</p><div class="bill-rule"></div><p class="bill-small">Computer-generated sales bill.<br>Payment collection is not recorded in this application.</p><p class="bill-end">• • •</p></footer>
+  </article>
+  <p class="print-help">Choose “Save as PDF” in the print dialog to download your bill.<br>Shop receipt uses 80 mm paper; A4 bill uses a full-size page.</p>
+</main>
+{% endblock %}

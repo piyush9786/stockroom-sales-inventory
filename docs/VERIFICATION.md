@@ -11,7 +11,7 @@ Verified on **7 November 2026 (Asia/Kolkata)** in the development environment.
 
 ## Automated result
 
-**65 passed in 11.15 seconds.** The final run had no warnings.
+**70 passed in 12.16 seconds.** The latest run includes the landing/bill additions and had no warnings.
 
 The complete suite exercised real MySQL transactions and foreign keys in a separate,
 disposable test database. It includes the assignment's nine required scenarios and
@@ -37,6 +37,10 @@ installed from `requirements-dev.txt` needs only the README's `python -m pytest 
 - A 390 x 844 mobile viewport and 1440 x 1000 desktop viewport were visually inspected.
   Wide data tables remain horizontally scrollable on small screens.
 - The checked application flows produced **zero application JavaScript runtime errors**.
+- The new public landing page, refreshed workspace, shop receipt and A4 bill were opened
+  in the live preview. Both bill layouts displayed the stored 4,050.00 example total.
+- Added tests verify bill ownership/authentication, Draft/Cancelled rejection, unchanged
+  stock/movement counts, snapshot rates, untrusted query values and escaped shop/customer text.
 
 ## Other checks
 
