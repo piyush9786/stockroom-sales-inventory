@@ -1,0 +1,6 @@
+product_code,product_name,category,price,stock_quantity,status
+BAD-001,Valid row that must not be imported,Accessories,1500,20,Active
+BAD-002,Negative price,Accessories,-500,50,Active
+BAD-003,Fractional quantity,Cables,100,2.5,Active
+BAD-004,Invalid status,Cables,100,10,Enabled
+BAD-001,Duplicate product code,Accessories,100,5,Active

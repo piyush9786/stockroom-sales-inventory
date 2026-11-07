@@ -5,7 +5,8 @@ from flask import Blueprint, g, jsonify, request, session
 from werkzeug.security import check_password_hash
 from .db import query, execute, transaction
 from .services import (require_admin, order_detail, save_order, transition_order,
-                       adjust_stock, stock_movement, import_products)
+                       adjust_stock, stock_movement)
+from .csv_import import import_products
 from .validation import (Problem, integer, text, customer_data, product_data,
                          status_value, iso_date)
 
