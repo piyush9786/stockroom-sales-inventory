@@ -12,5 +12,6 @@ test-results/
 recordings/
 *.zip
 *.mp4
+!demo.mp4
 *.webm
 .DS_Store

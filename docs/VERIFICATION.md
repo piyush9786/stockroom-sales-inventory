@@ -51,6 +51,7 @@ installed from `requirements-dev.txt` needs only the README's `python -m pytest 
 - Python compilation, JavaScript syntax checking and Git whitespace checks passed.
 - The repository includes a real feature branch and merge commit, not a fabricated log.
 - Git-tracked files exclude `.env`, local credentials, environments and temporary downloads.
+- The required `demo.mp4` is tracked in Git; other generated videos remain ignored.
 - The documented schema initialization, account-creation and sample-seeding commands
   were repeated successfully on clean application and demo MySQL databases.
 - The refreshed current-interface walkthrough is 360 seconds and covers shop/A4 bills as

@@ -243,11 +243,12 @@ See [docs/VERIFICATION.md](docs/VERIFICATION.md) for the recorded execution resu
 | Automated tests and instructions | `tests/`, section 7 |
 | Corrected debugging exercise/explanation/tests | `app/validation.py`, `docs/DEBUGGING.md`, `tests/test_calculations.py` |
 | AI usage disclosure | `AI_USAGE.md` |
-| 5-8 minute working demo | `demo.mp4` included in the submission archive; `docs/DEMO_GUIDE.md` |
+| 5-8 minute working demo | Git-tracked `demo.mp4` included in the submission archive; `docs/DEMO_GUIDE.md` |
 
 `docs/REQUIREMENTS.md` maps all 14 parts and the interview/instruction notes to the
 implementation. The Git history contains meaningful development commits and the
-merged `feature/product-csv-import` branch. Inspect with `git log --graph --oneline --all`.
+merged `feature/product-csv-import` and `feature/landing-and-shop-bills` branches.
+Inspect with `git log --graph --oneline --all`.
 No real credentials, environment, virtual environment or dependency downloads are in Git.
 The repository archive retains `.git` so no hosted repository is required. Public hosting
 is optional. The assignment deadline is **within three calendar days of receipt**; the
