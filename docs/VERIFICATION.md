@@ -1,6 +1,7 @@
 # Verification record
 
-Verified on **7 November 2026 (Asia/Kolkata)** in the development environment.
+Originally verified on 7 November 2026; final setup, tests and demo refreshed on
+**8 November 2026 (Asia/Kolkata)** in the development environment.
 
 ## Runtime
 
@@ -11,7 +12,8 @@ Verified on **7 November 2026 (Asia/Kolkata)** in the development environment.
 
 ## Automated result
 
-**70 passed in 12.16 seconds.** The latest run includes the landing/bill additions and had no warnings.
+**70 passed in 13.04 seconds.** The final run after environment restoration includes the
+landing/bill additions and had no warnings.
 
 The complete suite exercised real MySQL transactions and foreign keys in a separate,
 disposable test database. It includes the assignment's nine required scenarios and
@@ -49,6 +51,10 @@ installed from `requirements-dev.txt` needs only the README's `python -m pytest 
 - Python compilation, JavaScript syntax checking and Git whitespace checks passed.
 - The repository includes a real feature branch and merge commit, not a fabricated log.
 - Git-tracked files exclude `.env`, local credentials, environments and temporary downloads.
+- The documented schema initialization, account-creation and sample-seeding commands
+  were repeated successfully on clean application and demo MySQL databases.
+- The refreshed current-interface walkthrough is 360 seconds and covers shop/A4 bills as
+  well as the required core workflows. Idle capture/upload waits were removed in editing.
 
 The demo recording and final archive are verified separately during packaging; their
 completion details are recorded in `docs/DEMO_GUIDE.md`. Tests verify behavior under the

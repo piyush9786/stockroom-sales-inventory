@@ -23,8 +23,13 @@ the submitted solution. This must not be represented as unaided candidate work.
    and make this project do not add any new tech or remove any info go based on the
    guidenline they have given follow all instructions and complete the project"
 
-This was the only project-generation user prompt; development proceeded within the
-same Codex session rather than through additional external AI tools.
+2. User follow-up: "can you make this cool and also add landing page so it make look
+   cool and also add some gadient to this and also which generating the bill can you
+   generate the bill which is like in the shop"
+3. User follow-up: "do what is asked"
+
+These are representative prompts from the same Codex session. No additional external
+AI tools were used.
 
 ## Review and verification
 

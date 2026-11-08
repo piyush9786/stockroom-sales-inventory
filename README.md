@@ -252,3 +252,6 @@ No real credentials, environment, virtual environment or dependency downloads ar
 The repository archive retains `.git` so no hosted repository is required. Public hosting
 is optional. The assignment deadline is **within three calendar days of receipt**; the
 candidate is responsible for submitting the named archive within that deadline.
+
+For interview preparation, see `docs/INTERVIEW_GUIDE.md`: business-flow explanations,
+code locations, the demonstration sequence and practical live-change exercises.
